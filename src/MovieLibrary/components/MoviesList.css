@@ -1,0 +1,148 @@
+.movies-list {
+  display: grid;
+  grid-template-columns: repeat(2fr,1);
+
+}
+
+.sort{
+  color:white;
+  width:80%;
+  display: flex;
+  margin: auto;
+  margin-bottom: 40px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  justify-content: right;
+}
+
+.option{
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.movies-list > .items {
+  width: 80%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    row-gap: 50px;
+    column-gap: 20px;
+    color: white;
+    font-weight: 600;
+    
+}
+
+.title-holder{
+      font-size: 14px;
+    padding: 2px;
+    margin-bottom: 5px;
+}
+
+.rank-label{
+  border-radius: 6px;
+  position: absolute;
+  bottom:3%;
+  right:2%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0,0,0,0.9);
+  width:50px;
+  height:30px;
+}
+
+.expanded-movie-item-holder{
+  width:100%;
+  height: 100vh;
+  position:fixed;
+  top: 0;
+  display: flex !important;
+  justify-content: center;
+  background-color: rgba(0,0,0,0.9);
+}
+
+.hide{
+  display: none;
+}
+
+.expanded-movie-item {
+  width: 80%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: row;
+  background: white;
+  margin: auto;
+  border-radius: 10px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.9);
+}
+
+.expanded-movie-item h4 {
+  display: inline;
+}
+
+.expanded-movie-item >.expanded-poster {
+max-width: 400px;
+}
+
+.expanded-movie-item  > .description {
+  display: flex;
+  padding: 40px;
+  row-gap: 10px;
+  flex-direction: column;
+}
+
+.overview-text{
+  color: rgba(0,0,0,0.5);
+    line-height: 26px;
+}
+
+.expanded-rank{
+  margin-top: auto;
+}
+
+.votes-holder{
+  color:rgba(0,0,0,0.5);
+  font-size: 42px;
+  font-weight: 400;
+  font-family: "Roboto Condensed", sans-serif;
+  margin-left: 10px;
+}
+
+.movie-list-item {
+  cursor: pointer;
+  transition: all ease 0.25s;
+  border-radius: 10px;
+    background-color: rgba(255,255,255,0.2);
+}
+
+.movie-list-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 5px 20px rgba(0,0,0,0.9);
+}
+
+.movie-list-item.selected {
+  text-decoration: underline;
+}
+
+.btn-close-modal{
+  background-color: rgba(0,0,0,0.5);
+  border-radius: 50px;
+  display: flex;
+  position:fixed;
+  top:10%;
+  right:10%;
+  z-index: 2;
+cursor: pointer;
+transition: all ease 0.25s;
+}
+
+.btn-close-modal:hover{
+  transform:scale(1.2);
+}
+
+.poster{
+  width:100%;
+  border-radius: 10px 10px 0 0;
+}
