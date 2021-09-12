@@ -7,23 +7,80 @@ import {AiOutlineCloseCircle} from "react-icons/ai"
 import {FaStar} from "react-icons/fa"
 import { IconContext } from 'react-icons/lib'
 
-export default class MoviesList extends PureComponent {
 
-  static propTypes = {
-    movies: PropTypes.array.isRequired
+var requestOptions = {
+  method: 'GET',
+  redirect: 'follow'
+};
+
+fetch("https://api.themoviedb.org/3/movie/now_playing?api_key=1d0e2bbffe4e2681e295a282797223d8", requestOptions)
+  .then(response => response.json())
+  .then(result => console.log(result))
+  .catch(error => console.log('error', error));
+
+export default class MoviesList extends Component
+{
+  constructor(props) {
+    super(props)
+    this.handleSortingChange = this.handleSortingChange.bind( this )
+    this.state = {
+      movieState: [],
+      selectedMovie: null,
+      sortingOrder: null
+    }
   }
 
-  state = {
-    selectedMovie: null
-  }
 
+  componentDidMount () {
+    const movieState = response
+    this.setState({
+      movieState: movieState
+    })
+  }
+  
   handleSelectMovie = item => this.setState({selectedMovie: item})
   handleCloseMovie = () => this.setState({selectedMovie: null})
-  handleSortingChange = sortingType => console.log(sortingType)
+  handleSortingChange ( sortingType )
+  {
+    const { movieState } = this.state
+    let newMovies = movieState
+    if ( sortingType == "name_asc" )
+    {
+      newMovies = movieState.sort((a, b) => {
+      if (a.title < b.title) { return -1; }
+      if ( a.title > b.title ) { return 1; }
+      return 0;
+      });
+    }
+
+    if ( sortingType == "name_desc" )
+    {
+      newMovies = movieState.sort((a, b) => {
+      if (a.title < b.title) { return 1; }
+      if ( a.title > b.title ) { return -1; }
+      return 0;
+      });
+    }
+
+    if ( sortingType == "rating" )
+    {
+      newMovies = movieState.sort((a, b) => {
+      if (a.vote_average > b.vote_average) { return -1; }
+      if ( a.vote_average < b.vote_average ) { return 1; }
+      return 0;
+      });
+    }
+    
+    this.setState( {
+      movieState:newMovies
+    } )
+    
+  }
 
   render() {
-    const {movies} = this.props
-    const {selectedMovie} = this.state
+    const {movieState} = this.state
+    const { selectedMovie } = this.state
+
 
     return (
       <div className="movies-list">
@@ -34,10 +91,9 @@ export default class MoviesList extends PureComponent {
             <span>SORT BY:</span>
             <SortingOptions onChange={this.handleSortingChange}/>
         </div>
-        <div className="items">
-          
+        <div className="items"> 
           {
-            movies.map(movie =>
+            movieState.map(movie => 
               <MovieListItem key={movie.id} movie={movie} isSelected={selectedMovie===movie} onSelect={this.handleSelectMovie}/>
             )
           }
