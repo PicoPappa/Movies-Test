@@ -1,22 +1,13 @@
-import React, { Component, PureComponent } from 'react'
-import PropTypes from 'prop-types'
+import React, { Component } from 'react'
 import classNames from 'classnames'
 import TMDBImage from './TMDBImage'
 import './MoviesList.css'
 import {AiOutlineCloseCircle} from "react-icons/ai"
 import {FaStar} from "react-icons/fa"
 import { IconContext } from 'react-icons/lib'
+const SEARCH_API = "https://api.themoviedb.org/3/movie/now_playing?api_key=1d0e2bbffe4e2681e295a282797223d8"
 
 
-var requestOptions = {
-  method: 'GET',
-  redirect: 'follow'
-};
-
-fetch("https://api.themoviedb.org/3/movie/now_playing?api_key=1d0e2bbffe4e2681e295a282797223d8", requestOptions)
-  .then(response => response.json())
-  .then(result => console.log(result))
-  .catch(error => console.log('error', error));
 
 export default class MoviesList extends Component
 {
@@ -25,17 +16,25 @@ export default class MoviesList extends Component
     this.handleSortingChange = this.handleSortingChange.bind( this )
     this.state = {
       movieState: [],
+      pagestoload:4,
       selectedMovie: null,
       sortingOrder: null
     }
   }
 
-
-  componentDidMount () {
-    const movieState = response
-    this.setState({
-      movieState: movieState
-    })
+  componentDidMount ()
+  {
+    
+    for ( let page = 1; page < this.state.pagestoload; page++ )
+    {
+      fetch( SEARCH_API+"&page="+page )
+        .then( ( response ) => response.json() )
+        .then( data =>
+        {
+          console.log( data.results )
+          this.setState( { movieState: [...this.state.movieState, ...data.results ] } );
+        } );
+    }
   }
   
   handleSelectMovie = item => this.setState({selectedMovie: item})
@@ -80,7 +79,6 @@ export default class MoviesList extends Component
   render() {
     const {movieState} = this.state
     const { selectedMovie } = this.state
-
 
     return (
       <div className="movies-list">
