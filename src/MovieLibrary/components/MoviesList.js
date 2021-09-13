@@ -14,17 +14,20 @@ export default class MoviesList extends Component
   constructor(props) {
     super(props)
     this.handleSortingChange = this.handleSortingChange.bind( this )
+    this.handleScroll=this.handleScroll.bind(this)
+    this.pageEndRef = React.createRef();
     this.state = {
       movieState: [],
       pagestoload:4,
       selectedMovie: null,
-      sortingOrder: null
+      sortingOrder: null,
+      isLoading:false
     }
   }
 
   componentDidMount ()
   {
-    
+    window.addEventListener('scroll', this.handleScroll, true);
     for ( let page = 1; page < this.state.pagestoload; page++ )
     {
       fetch( SEARCH_API+"&page="+page )
@@ -35,6 +38,25 @@ export default class MoviesList extends Component
           this.setState( { movieState: [...this.state.movieState, ...data.results ] } );
         } );
     }
+  }
+
+  handleScroll ()
+  {
+    const scroller = this.pageEndRef.current;
+    if ( scroller.offsetTop - window.pageYOffset < 1300 && this.state.isLoading==false )
+    {
+      this.setState({isLoading:true})
+      this.setState( { pagestoload: this.state.pagestoload+1 } )
+      const currentpage = this.state.pagestoload;
+        fetch( SEARCH_API+"&page="+currentpage )
+        .then( ( response ) => response.json() )
+        .then( data =>
+        {
+          console.log( data.results )
+          this.setState( { movieState: [ ...this.state.movieState, ...data.results ] } );
+          this.setState({isLoading:false})
+        } );
+      }
   }
   
   handleSelectMovie = item => this.setState({selectedMovie: item})
@@ -102,6 +124,7 @@ export default class MoviesList extends Component
             </ExpandedMovieItem>
           )
         }
+        <div ref={this.pageEndRef} onScroll={this.handleScroll}/>
       </div>
     )
   }
