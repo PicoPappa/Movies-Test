@@ -26,7 +26,8 @@ class MovieLibrary extends Component {
       <div className="MovieLibrary">
         <header className="ML-header">
           <img src={logo} className="ML-logo" alt="logo" />
-          <h1 className="ML-title">Movies</h1>
+          <h1 className="ML-title">MOVIES</h1>
+          <h2 className="ML-subtitle">BY JUAN FRANCISCO PAPPAGALLO</h2>
         </header>
         <div className="ML-intro">
           { movies.length && <MoviesList movies={movies}/> }

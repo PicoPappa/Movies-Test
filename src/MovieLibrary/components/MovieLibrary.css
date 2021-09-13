@@ -15,7 +15,15 @@
 }
 
 .ML-title {
-  font-size: 1.5em;
+  font-size:3em;
+  letter-spacing: 10px;
+  margin:0;
+}
+
+.ML-subtitle{
+  font-size: 1em;
+  letter-spacing: 4px;
+  font-weight: 200;
 }
 
 .ML-intro {
